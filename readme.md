@@ -1,0 +1,1 @@
+[![Python common.](https://github.com/kosmonavtus/clitm/actions/workflows/main.yml/badge.svg)](https://github.com/kosmonavtus/clitm/actions/workflows/main.yml) 
