@@ -10,8 +10,8 @@ config = Settings()
 api_key_header = APIKeyHeader(name="access_token", auto_error=False)
 
 
-def get_api_key(api_key_header: str = Security(api_key_header))-> bool:
-    if api_key_header == config.API_KEY:
+def get_api_key(api_key_header: str = Security(api_key_header)) -> bool:
+    if api_key_header == config.api_key:
         return True
     else:
         raise HTTPException(
