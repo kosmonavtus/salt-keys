@@ -3,8 +3,8 @@ from subprocess import CalledProcessError
 import json
 
 
-def key_accepted_check(salt_worck_dir: str) -> dict:
-    cmd = ["salt-kyes", "--list=accepted", "--out=json"]
+def key_accepted_check(salt_worck_dir: str, bin_path: str) -> dict:
+    cmd = [bin_path, "--list=accepted", "--out=json"]
     try:
         output = run(cmd, stdout=PIPE, stderr=STDOUT, text=True, cwd=salt_worck_dir)
         json_output = json.loads(output.stdout)
@@ -13,8 +13,8 @@ def key_accepted_check(salt_worck_dir: str) -> dict:
         raise e
 
 
-def key_accept(salt_worck_dir: str, key: str) -> bool:
-    cmd = ["salt-kyes", f"--accept={key}", "--out=json"]
+def key_accept(salt_worck_dir: str, key: str, bin_path: str) -> bool:
+    cmd = [bin_path, f"--accept={key}", "--out=json"]
     try:
         run(cmd, stdout=PIPE, stderr=STDOUT, text=True, cwd=salt_worck_dir)
         return True
@@ -22,8 +22,8 @@ def key_accept(salt_worck_dir: str, key: str) -> bool:
         raise e
 
 
-def key_delete(salt_worck_dir: str, key: str) -> bool:
-    cmd = ["salt-kyes", f"--delete={key}", "--out=json"]
+def key_delete(salt_worck_dir: str, key: str, bin_path: str) -> bool:
+    cmd = [bin_path, f"--delete={key}", "--out=json"]
     try:
         run(cmd, stdout=PIPE, stderr=STDOUT, text=True, cwd=salt_worck_dir)
         return True

@@ -21,7 +21,7 @@ router = APIRouter(
 @router.post("/keys/{key}", status_code=status.HTTP_201_CREATED)
 def add_key(key: str, response: Response):
     try:
-        key_accept(config.salt_worck_dir, key)
+        key_accept(config.salt_worck_dir, key, config.bin_path)
         return {"OK": key}
     except (CalledProcessError, FileNotFoundError, PermissionError):
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
@@ -31,7 +31,7 @@ def add_key(key: str, response: Response):
 @router.get("/keys/{key}", status_code=status.HTTP_200_OK)
 def key_check(key: str, response: Response):
     try:
-        kyes_dict = key_accepted_check(config.salt_worck_dir)
+        kyes_dict = key_accepted_check(config.salt_worck_dir, config.bin_path)
         if key in kyes_dict['minions']:
             return {"OK": key}
         else:
@@ -45,7 +45,7 @@ def key_check(key: str, response: Response):
 @router.delete("/keys/{key}", status_code=status.HTTP_200_OK)
 def keys_delete(key: str, response: Response):
     try:
-        key_delete(config.salt_worck_dir, key)
+        key_delete(config.salt_worck_dir, key, config.bin_path)
         return {"OK": key}
     except (CalledProcessError, FileNotFoundError, PermissionError):
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
