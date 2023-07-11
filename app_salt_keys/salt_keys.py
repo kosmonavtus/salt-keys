@@ -12,7 +12,7 @@ def _get_cmd_param(param: str, key='str') -> list:
         case 'check':
             return [config.bin_path, "--list=accepted", "--out=json"]
         case 'accept':
-            return [config.bin_path, f"--accept={key}", "--out=json"]
+            return [config.bin_path, f"--accept={key}", "--out=json", "--yes"]
         case 'delete':
             return [config.bin_path, f"--delete={key}", "--out=json", "--yes"]
         case _:

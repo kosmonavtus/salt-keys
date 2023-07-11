@@ -32,9 +32,11 @@ def add_key(key: str, response: Response):
     try:
         key_accept(key)
         return {"OK": key}
-    except (CalledProcessError, FileNotFoundError, PermissionError):
+    except(CalledProcessError, FileNotFoundError, PermissionError):
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {"ERROR": 'Cannot run salt-kyes'}
+    except:
+        return {"ERROR": 'Unknown error'}
 
 
 @router.delete("/keys/{key}", status_code=status.HTTP_200_OK)
