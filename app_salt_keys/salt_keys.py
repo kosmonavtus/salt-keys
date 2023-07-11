@@ -47,7 +47,7 @@ def key_accept(key: str) -> bool:
 
 
 def key_delete(key: str) -> bool:
-    cmd = _get_cmd_param('accept', key)
+    cmd = _get_cmd_param('delete', key)
     try:
         run(cmd, stdout=PIPE, stderr=STDOUT, text=True, cwd=config.salt_worck_dir)
         return True
