@@ -3,7 +3,7 @@ from app_salt_keys.config import GunicornSettings
 from gunicorn.app.base import BaseApplication
 
 
-class FlaskApplication(BaseApplication):
+class FastapiApplication(BaseApplication):
     def __init__(self, app, options=None):
         self.options = options
         self.application = app
@@ -18,7 +18,7 @@ class FlaskApplication(BaseApplication):
 
 
 def run_gunicorn(app):
-    FlaskApplication(app, GunicornSettings()).run()
+    FastapiApplication(app, GunicornSettings()).run()
 
 
 if __name__ == '__main__':
