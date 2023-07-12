@@ -30,8 +30,11 @@ def key_check(key: str, response: Response):
 @router.post("/keys/{key}", status_code=status.HTTP_201_CREATED)
 def add_key(key: str, response: Response):
     try:
-        key_accept(key)
-        return {"OK": key}
+        if key_accept(key) is True:
+            return {"OK": key}
+        else:
+            response.status_code = status.HTTP_404_NOT_FOUND
+            return {"ERROR": f'The key glob {key} does not match any unaccepted keys.'}
     except(CalledProcessError, FileNotFoundError, PermissionError):
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {"ERROR": 'Cannot run salt-kyes'}

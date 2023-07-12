@@ -40,8 +40,13 @@ def key_accepted_check() -> dict:
 def key_accept(key: str) -> bool:
     cmd = _get_cmd_param('accept', key)
     try:
-        run(cmd, stdout=PIPE, stderr=STDOUT, text=True, cwd=config.salt_worck_dir)
-        return True
+        output = run(cmd, stdout=PIPE, stderr=STDOUT, text=True, cwd=config.salt_worck_dir)
+        if output.stdout in f'The key glob {key} does not match any unaccepted keys.':
+            return False
+        elif output.stdout in f'Key for minion {key} accepted.':
+            return True
+        else:
+            return False
     except (CalledProcessError, FileNotFoundError, PermissionError) as e:
         raise e
 
