@@ -41,9 +41,9 @@ def key_accept(key: str) -> bool:
     cmd = _get_cmd_param('accept', key)
     try:
         output = run(cmd, stdout=PIPE, stderr=STDOUT, text=True, cwd=config.salt_worck_dir)
-        if output.stdout in f'The key glob {key} does not match any unaccepted keys.':
+        if output.stdout ==  f"The key glob '{key}' does not match any unaccepted keys.\n":
             return False
-        elif output.stdout in f'Key for minion {key} accepted.':
+        elif output.stdout == f"Key for minion '{key}' accepted.\n":
             return True
         else:
             return False
