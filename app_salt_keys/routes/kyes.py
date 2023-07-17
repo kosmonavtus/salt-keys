@@ -43,10 +43,19 @@ def key_check(key: str, response: Response) -> State_status:
 def add_key(key: str, response: Response) -> State_status:
     try:
         if chek_keys_in_accepted(key) is True:
-            key_accept(key)
+            response.status_code = status.HTTP_200_OK
             response.headers["Content-Type"] = "application/json"
             state = State_status(state='ok')
             return state
+        elif chek_keys_in_accepted(key) is False:
+            if key_accept(key) is True:
+                response.status_code = status.HTTP_201_CREATED
+                state = State_status(state='ok')
+                return state
+            else:
+                response.status_code = status.HTTP_404_NOT_FOUND
+                state = State_status(state='The key glob does not match any unaccepted keys.')
+                return state 
         else:
             response.status_code = status.HTTP_404_NOT_FOUND
             response.headers["Content-Type"] = "application/json"
