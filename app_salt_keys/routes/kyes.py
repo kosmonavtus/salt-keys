@@ -30,7 +30,7 @@ def key_check(key: str, response: Response) -> State_status:
         else:
             response.status_code = status.HTTP_404_NOT_FOUND
             response.headers["Content-Type"] = "application/json"
-            state = State_status(state='kye was not found')
+            state = State_status(state='kye was not found in accepted keys')
             return state
     except (CalledProcessError, FileNotFoundError, PermissionError):
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
@@ -54,12 +54,12 @@ def add_key(key: str, response: Response) -> State_status:
                 return state
             else:
                 response.status_code = status.HTTP_404_NOT_FOUND
-                state = State_status(state='The key glob does not match any unaccepted keys.')
+                state = State_status(state=f'The key glob {key} does not match any unaccepted keys.')
                 return state 
         else:
             response.status_code = status.HTTP_404_NOT_FOUND
             response.headers["Content-Type"] = "application/json"
-            state = State_status(state=f'The key glob {key} does not match any unaccepted keys.')
+            state = State_status(state='kye was not found in accepted keys')
             return state
     except(CalledProcessError, FileNotFoundError, PermissionError):
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
