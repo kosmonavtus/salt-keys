@@ -18,38 +18,38 @@ router = APIRouter(
 def key_check(key: str, response: Response):
     try:
         if chek_keys_in_accepted(key) is True:
-            return {"OK": f'{key} found in the accepted.'}
+            return {'state': 'ok'}
         else:
             response.status_code = status.HTTP_404_NOT_FOUND
-            return {"ERROR": 'kye was not found'}
+            return {'ERROR': 'kye was not found'}
     except (CalledProcessError, FileNotFoundError, PermissionError):
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-        return {"ERROR": 'Cannot run salt-kyes'}
+        return {'ERROR': 'Cannot run salt-kyes'}
 
 
 @router.post("/keys/{key}", status_code=status.HTTP_201_CREATED)
 def add_key(key: str, response: Response):
     try:
         if chek_keys_in_accepted(key) is True:
-            response.status_code = status.HTTP_200_OK
-            return {"OK": f'{key} found in the accepted.'}
+            r 
+            return {'state': 'ok'}
         elif key_accept(key) is True:
-            return {"OK": f'{key} key accepted.'}
+            return {'state': 'ok'}
         else:
             response.status_code = status.HTTP_404_NOT_FOUND
-            return {"ERROR": f'The key glob {key} does not match any unaccepted keys.'}
+            return {'ERROR': f'The key glob {key} does not match any unaccepted keys.'}
     except(CalledProcessError, FileNotFoundError, PermissionError):
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-        return {"ERROR": 'Cannot run salt-kyes'}
+        return {'ERROR': 'Cannot run salt-kyes'}
     except:
-        return {"ERROR": 'Unknown error'}
+        return {'ERROR': 'Unknown error'}
 
 
 @router.delete("/keys/{key}", status_code=status.HTTP_200_OK)
 def keys_delete(key: str, response: Response):
     try:
         key_delete(key)
-        return {"OK": key}
+        return {'state': 'ok'}
     except (CalledProcessError, FileNotFoundError, PermissionError):
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-        return {"ERROR": 'Cannot run salt-kyes'}
+        return {'ERROR': 'Cannot run salt-kyes'}
