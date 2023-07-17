@@ -18,7 +18,7 @@ router = APIRouter(
 def key_check(key: str, response: Response):
     try:
         if chek_keys_in_accepted(key) is True:
-            return {"OK": key}
+            return {"OK": f'{key} found in the accepted.'}
         else:
             response.status_code = status.HTTP_404_NOT_FOUND
             return {"ERROR": 'kye was not found'}
@@ -30,8 +30,11 @@ def key_check(key: str, response: Response):
 @router.post("/keys/{key}", status_code=status.HTTP_201_CREATED)
 def add_key(key: str, response: Response):
     try:
-        if key_accept(key) is True:
-            return {"OK": key}
+        if chek_keys_in_accepted(key) is True:
+            response.status_code = status.HTTP_200_OK
+            return {"OK": f'{key} found in the accepted.'}
+        elif key_accept(key) is True:
+            return {"OK": f'{key} key accepted.'}
         else:
             response.status_code = status.HTTP_404_NOT_FOUND
             return {"ERROR": f'The key glob {key} does not match any unaccepted keys.'}
