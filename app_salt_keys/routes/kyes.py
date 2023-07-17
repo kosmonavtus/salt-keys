@@ -12,7 +12,6 @@ class State_status(BaseModel):
     state: str = 'ok'
 
 
-
 router = APIRouter(
     prefix="/api/v1",
     tags=["keys"],
