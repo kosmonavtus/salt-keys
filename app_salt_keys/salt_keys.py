@@ -20,14 +20,14 @@ def _get_cmd_param(param: str, key='str') -> list:
 
 
 def chek_keys_in_accepted(key: str) -> bool:
-    kyes_dict = key_accepted_check()
+    kyes_dict = _get_accepted_keys()
     if key in kyes_dict['minions']:
         return True
     else:
         return False
 
 
-def key_accepted_check() -> dict:
+def _get_accepted_keys() -> dict:
     cmd = _get_cmd_param('check')
     try:
         output = run(cmd, stdout=PIPE, stderr=STDOUT, text=True, cwd=config.salt_worck_dir)

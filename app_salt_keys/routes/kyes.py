@@ -21,7 +21,7 @@ router = APIRouter(
 
 
 @router.get("/keys/{key}", status_code=status.HTTP_200_OK, response_model=State_status)
-def key_check(key: str, response: Response) -> dict:
+def key_check(key: str, response: Response) -> State_status:
     try:
         if chek_keys_in_accepted(key) is True:
             response.headers["Content-Type"] = "application/json"
@@ -40,7 +40,7 @@ def key_check(key: str, response: Response) -> dict:
 
 
 @router.post("/keys/{key}", status_code=status.HTTP_201_CREATED, response_model=State_status)
-def add_key(key: str, response: Response) -> dict:
+def add_key(key: str, response: Response) -> State_status:
     try:
         if chek_keys_in_accepted(key) is True:
             key_accept(key)
@@ -64,7 +64,7 @@ def add_key(key: str, response: Response) -> dict:
 
 
 @router.delete("/keys/{key}", status_code=status.HTTP_200_OK, response_model=State_status)
-def keys_delete(key: str, response: Response) -> dict:
+def keys_delete(key: str, response: Response) -> State_status:
     try:
         key_delete(key)
         response.headers["Content-Type"] = "application/json"
