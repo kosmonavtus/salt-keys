@@ -1,20 +1,32 @@
 from app_salt_keys.config import Settings
 from subprocess import run, STDOUT, PIPE
 from subprocess import CalledProcessError
+from pydantic import ValidationError
+from pydantic import BaseModel
+from pydantic import Field
+from typing import Annotated
 import json
 
 
 config = Settings()
 
 
-def _get_cmd_param(param: str, key='str') -> list:
+class StrValidator(BaseModel):
+    key_str: Annotated[str, Field(regex="^[-A-Za-z0-9.]*$")] = 'str'
+
+
+def _get_cmd_param(param: str, key: str = 'str') -> list:
+    try: 
+        checked_str = StrValidator(key_str=key)
+    except ValidationError as e:
+            raise e
     match param:
         case 'check':
             return [config.bin_path, "--list=accepted", "--out=json"]
         case 'accept':
-            return [config.bin_path, f"--accept={key}", "--out=json", "--yes"]
+            return [config.bin_path, f"--accept={checked_str.key_str}", "--out=json", "--yes"]
         case 'delete':
-            return [config.bin_path, f"--delete={key}", "--out=json", "--yes"]
+            return [config.bin_path, f"--delete={checked_str.key_str}", "--out=json", "--yes"]
         case _:
             return []
 
