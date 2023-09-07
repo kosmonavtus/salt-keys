@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends
 from fastapi import status, Response
 from app_salt_keys.auth import get_api_key
 from app_salt_keys.salt_keys import chek_keys_in_accepted
+from app_salt_keys.salt_keys import chek_keys_in_unaccepted
 from app_salt_keys.salt_keys import key_accept
 from app_salt_keys.salt_keys import key_delete
 from pydantic import BaseModel
@@ -26,10 +27,15 @@ def key_check(key: str, response: Response) -> State_status:
             response.headers["Content-Type"] = "application/json"
             state = State_status(state='ok')
             return state
+        elif chek_keys_in_unaccepted(key) is False:
+            response.status_code = status.HTTP_204_NO_CONTENT
+            response.headers["Content-Type"] = "application/json"
+            state = State_status(state='key was not found in unaccepted keys try again later')
+            return state
         else:
             response.status_code = status.HTTP_404_NOT_FOUND
             response.headers["Content-Type"] = "application/json"
-            state = State_status(state='kye was not found in accepted keys')
+            state = State_status(state='key was not found in accepted and unaccepted keys')
             return state
     except (CalledProcessError, FileNotFoundError, PermissionError):
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
@@ -83,3 +89,11 @@ def keys_delete(key: str, response: Response) -> State_status:
         state = State_status(state='Cannot run salt-kyes')
         response.headers["Content-Type"] = "application/json"
         return state
+    
+
+'''
+1) Проверям что ключ в принятых - если ключ там есть то возращаем ок
+2) Если ключа нет в принятых - провряем есть ли ключ  в НЕпринятых.
+   Если ключа нет в не принятых вовзращем - 204.
+3) Если ключа нет в принятых и ключ есть в НЕ приянытх  - вовзвращаем 404. 
+'''
