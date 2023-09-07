@@ -35,7 +35,7 @@ def key_check(key: str, response: Response) -> State_status:
         else:
             response.status_code = status.HTTP_404_NOT_FOUND
             response.headers["Content-Type"] = "application/json"
-            state = State_status(state='key was not found in accepted and unaccepted keys')
+            state = State_status(state='key was not found in accepted and found in unaccepted keys')
             return state
     except (CalledProcessError, FileNotFoundError, PermissionError):
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
