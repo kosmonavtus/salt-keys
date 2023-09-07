@@ -89,11 +89,3 @@ def keys_delete(key: str, response: Response) -> State_status:
         state = State_status(state='Cannot run salt-kyes')
         response.headers["Content-Type"] = "application/json"
         return state
-    
-
-'''
-1) Проверям что ключ в принятых - если ключ там есть то возращаем ок
-2) Если ключа нет в принятых - провряем есть ли ключ  в НЕпринятых.
-   Если ключа нет в не принятых вовзращем - 204.
-3) Если ключа нет в принятых и ключ есть в НЕ приянытх  - вовзвращаем 404. 
-'''
