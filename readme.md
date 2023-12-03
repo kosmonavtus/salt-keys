@@ -1,1 +1,3 @@
-[![Python common.](https://github.com/kosmonavtus/clitm/actions/workflows/main.yml/badge.svg)](https://github.com/kosmonavtus/clitm/actions/workflows/main.yml) 
+# Salt-kyes wrapper.
+
+### API for Salt was written by junkies, so we have to have fun with this.
