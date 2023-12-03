@@ -23,7 +23,7 @@ def _get_cmd_param(param: str, key='str') -> list:
 
 def chek_keys_in_unaccepted(key: str) -> bool:
     kyes_dict = _get_unaccepted_keys()
-    if key in kyes_dict['minions']:
+    if key in kyes_dict['minions_pre']:
         return True
     else:
         return False
